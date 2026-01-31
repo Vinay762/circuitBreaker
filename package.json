@@ -1,0 +1,41 @@
+{
+  "name": "steady-circuit-breaker",
+  "version": "1.0.0",
+  "description": "Deterministic, promise-based circuit breaker for Node.js.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --out-dir dist",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "circuit-breaker",
+    "resilience",
+    "typescript"
+  ],
+  "sideEffects": false,
+  "author": "",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

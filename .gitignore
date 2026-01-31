@@ -1,0 +1,14 @@
+# Node build artifacts
+node_modules
+dist
+
+# Test and coverage output
+coverage
+.vitest
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo
+
+# Misc
+.DS_Store
+*.log
