@@ -1,8 +1,11 @@
+import { MetricsSnapshot } from "./metrics";
 import { CircuitBreakerState } from "./state";
+import { CircuitBreakerRejectReason, FallbackReason } from "./types";
 
 export interface StateChangeEvent {
   previous: CircuitBreakerState;
   current: CircuitBreakerState;
+  reason?: string;
 }
 
 export interface SuccessEvent {
@@ -13,18 +16,54 @@ export interface SuccessEvent {
 export interface FailureEvent {
   state: CircuitBreakerState;
   error: unknown;
+  durationMs: number;
+}
+
+export interface TimeoutEvent {
+  state: CircuitBreakerState;
+  durationMs: number;
 }
 
 export interface RejectEvent {
   state: CircuitBreakerState;
   error: Error;
+  reason: CircuitBreakerRejectReason;
+}
+
+export interface FallbackEvent {
+  state: CircuitBreakerState;
+  reason: FallbackReason;
+  error: unknown;
+  result?: unknown;
+  failed?: boolean;
+}
+
+export interface ThresholdBreachEvent {
+  metric: "failureRate" | "slowCallRate";
+  value: number;
+  threshold: number;
+  state: CircuitBreakerState;
+}
+
+export interface MetricsEvent {
+  snapshot: MetricsSnapshot;
+}
+
+export interface QueueEvent {
+  size: number;
+  type: "enqueue" | "dequeue";
 }
 
 export interface CircuitBreakerEvents extends Record<string, unknown> {
   stateChange: StateChangeEvent;
   success: SuccessEvent;
   failure: FailureEvent;
+  timeout: TimeoutEvent;
   reject: RejectEvent;
+  fallback: FallbackEvent;
+  thresholdBreach: ThresholdBreachEvent;
+  metrics: MetricsEvent;
+  queue: QueueEvent;
 }
 
 export type Listener<T> = (payload: T) => void;
