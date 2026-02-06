@@ -94,4 +94,16 @@ export class EventDispatcher<E extends Record<string, unknown>> {
       handler(payload);
     }
   }
+
+  emitLazy<K extends keyof E>(event: K, payloadFactory: () => E[K]): void {
+    const handlers = this.listeners[event];
+    if (!handlers || handlers.size === 0) {
+      return;
+    }
+
+    const payload = payloadFactory();
+    for (const handler of handlers) {
+      handler(payload);
+    }
+  }
 }

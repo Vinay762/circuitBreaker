@@ -655,7 +655,7 @@ export class CircuitBreaker {
   }
 
   private emitMetrics(): void {
-    this.emitter.emit("metrics", { snapshot: this.metrics.snapshot() });
+    this.emitter.emitLazy("metrics", () => ({ snapshot: this.metrics.snapshot() }));
   }
 
   private cloneResolvedOptions(source: NormalizedCircuitBreakerOptions): CircuitBreakerResolvedOptions {
